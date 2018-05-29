@@ -1,5 +1,5 @@
 
-# Sampling of Biased Signals
+# Sampling of Biased Physical Signals
 
 ## Overview
 
@@ -10,15 +10,13 @@
 
 # 1. Introduction
 
-The goal here is to develop a method for sampling signals that are inherently strongly biased. Under these circumstances randomly sampling the inputs would result in a highly unbalanced dataset. Such situation may result in a drastic reduction in the performance of machine learning classifiers or regressors on the data.
+The goal here is to develop a method for sampling physical signals that are inherently strongly biased. More specifically, we deal with cases in which a system responds to random inputs by outputing mostly minimum signals. Under these circumstances randomly sampling the inputs would result in a highly unbalanced dataset. Such a situation may result in a drastic reduction on the performance of machine learning classifiers or regressors trained on the data.
 
-We illustrate the developed algorithms on a concrete example: the simulated response of a multilevel quantum system after interacting with a shaped ultrafast laser. The system inputs correspond to the shaping parameters, and randomly sampling the inputs resuls overwhelmingly on low-valued signals.
+We illustrate the developed algorithms on a concrete example: the simulated response of a multilevel quantum system after interacting with a shaped ultrafast laser. The system inputs correspond to the laser pulse shape parameters, and randomly sampling the inputs resuls overwhelmingly on low-valued signals, as it will be seen below.
 
-It is not necesary to understand all the parameters below to understand the sampling technique described here. The information about the laser and quantum system below is given only as reference and can be skipped.
+It is not necesary to understand all the concepts given below to understand the sampling technique described here (section 4). In particular, the information about the laser and quantum system below (i.e., in the rest of this introductory section) is given only as a reference and can be skipped. We define next details for the calculation of the physical simulated signal we will be using to illustrate the sampling technique.
 
 ## 1.1 System definition
-
- Below the (not shaped yet) output of an ultrafast laser and a multilevel quantum system are specified. From that it is possible to calculate the quantum system's response, as given in the plots below.
 
 
 ```python
@@ -72,6 +70,8 @@ mu = [[0.000, 2.232, 3.157, 0.000, 0.000],
 ```
 
 ## 1.2 Laser pulse shaping
+
+The laser is shaped by modifying its spectral phases grouped in 640 pixels. The now shaped field is then transformed to the time domain E(t) for calculating its interaction with the quantum system.
 
 
 ```python
@@ -130,7 +130,7 @@ Here are changes in the five quantum state populations as a response to the rand
 
 # 2 Random sampling
 
-The system can be sampled by generating random phases in the [0, 2$\pi$] interval. Below, the final population in state $|3\rangle$ is ramdomly sampled. To be consistent with later calculations, will bundle the phase in groups of 4 contiguous pixels.
+The system can be sampled by generating random phases in the [0, 2$\pi$] interval. Below, the final population in state $|3\rangle$ is recoded as signal. To be consistent with later calculations, will start bundling the phase in groups of 4 contiguous pixels.
 
 ## 2.1 Signal function
 
@@ -213,13 +213,17 @@ plt.ylabel("occurrences")
 ![png](README_files/README_22_4.png)
 
 
-As it can be seen, random sampling the phases produces a dataset strongly biased towards low-value signals. As shown below, the performance of random sampling is even worse than it seems since the signal ranges all the way up to 1.0. To see this we will perform an input optimization.
+As it can be seen, random sampling the phases produces a dataset strongly biased towards low-value signals. As shown below, the performance of random sampling is even worse than it seems since the signal ranges all the way up to ~0.5. To see this we will perform an input optimization.
 
 # 3 Signal optimization
 
-Before developing a better sampling procedure, it is important to know the signal range. From the random sampling above we can see that the signal can be as small as the lowest possible (i.e., zero). To find the limit at the other end we will run a signal optimization. 
+While developing any sampling procedure it is important to know the signal range. In this particular system, the minimum signal is equal to zero (i.e., the population of state $|3\rangle$ cannot be less than zero). From the random sampling above we see that the minimum signal can be obtained by a large set of (randomly chosen) inputs. To find the (yet unknown) limit at the other end, we will run a signal optimization.
+
+The optimization will be performed by a genetic algorithm (GA) which will attempt to maximize the signal function defined above.
 
 ## 3.1 Fitness function
+
+The fitness function just wraps the signal function to include graphing and saving procedures that are called by the GA.
 
 
 ```python
@@ -250,8 +254,6 @@ print fitness()
 
 ## 3.2 Run a GA signal optimization
 
-Will find the maximum signal with the aid of a genetic algorithm (GA).
-
 
 ```python
 from ga import ga
@@ -277,55 +279,18 @@ ga.plotBest(ga_engine)
 ga.plotFitnessHistory()
 ```
 
-    Gen. 0 (0.00%): Max/Min/Avg Fitness(Raw) [0.14(0.12)/0.02(0.00)/0.05(0.03)]
-    Gen. 1000 (10.00%): Max/Min/Avg Fitness(Raw) [0.17(0.47)/0.00(0.20)/0.14(0.44)]
-    Gen. 2000 (20.00%): Max/Min/Avg Fitness(Raw) [0.10(0.49)/0.00(0.30)/0.08(0.47)]
-    Gen. 3000 (30.00%): Max/Min/Avg Fitness(Raw) [0.11(0.49)/0.00(0.13)/0.10(0.47)]
-    Gen. 4000 (40.00%): Max/Min/Avg Fitness(Raw) [0.12(0.49)/0.00(0.21)/0.10(0.47)]
-    Gen. 5000 (50.00%): Max/Min/Avg Fitness(Raw) [0.18(0.49)/0.00(0.03)/0.16(0.46)]
-    
-    	Evolution stopped by Termination Criteria function !
-    
-    Gen. 5985 (59.85%): Max/Min/Avg Fitness(Raw) [0.10(0.49)/0.00(0.24)/0.08(0.47)]
-    Total time elapsed: 49907.685 seconds.
-    fitness history saved to "data/optimum_signal__fitness_history.csv"
-    best parameters saved to "data/optimum_signal__parameters.txt"
-    best parameters translated by "<function fitness at 0x7fe5683867d0>" saved to "data/optimum_signal__best.csv"
-    signal: 0.490909148514
-
-
-
-![png](README_files/README_30_1.png)
-
-
-
-![png](README_files/README_30_2.png)
-
-
-
-![png](README_files/README_30_3.png)
-
-
-
-![png](README_files/README_30_4.png)
-
-
-
-![png](README_files/README_30_5.png)
-
-
-
-![png](README_files/README_30_6.png)
-
+maximum at ~0.5
 
 # 4. Balanced sampling
+
+### Brief description:
 
 The balanced sampling technique we propose involves the following steps:
 1. **Obtain** a set of inputs **x$_0$** corresponding to a signal **optimum**.
 2. **Sample away from x$_0$ by adding to it perturbations**. The perturbations are generated from a set of normal distributions corresponding to a pre-selected **set of $\sigma$'s**. The logic here is that since x$_0$ corresponds to an optimum signal, going away from x$_0$ will result in lower signals. Also, since, as shown above, random x corresponds here to the lowest signals, perturbating far enough from x$_0$ would go all the way to minimum signal. At the end of this step we have sets of samples, each corresponding to a $\sigma$ value.
 3. **Map each $\sigma$ to a distribution over the signal y** by calculating the histogram in each set. The resulting matrix (i.e., rows and columns corresponding to $\sigma$'s and y's, respectively) is then up-sampled by a smooth interpolation. The result at this point is approximately similar to having measured for many more $\sigma$ sets and for many more points in each set (i.e., more ponts would allow for much finer histograms).
-4. **Obtain and optimum set of weights** (i.e., one weight per sigma value) that allow obtaining a balanced dataset in the signal y. The weights are found by inverting the $\sigma$'s-y's matrix with the aid of a genetic algorithm (GA).
-5. **Sample a balanced dataset using the weights**. This is done for each sample by generating its inputs from a normal distribution with a $\sigma$ chosen by a weighted ramdom draw.  
+4. **Obtain and optimum set of weights** (i.e., one weight per sigma value) that allow obtaining a balanced dataset in the signal y. The weights are found through approximately inverting the $\sigma$'s-y's matrix with the aid of a genetic algorithm (GA).
+5. **Sample a balanced dataset using the weights**. This is done for each sample by generating its inputs from a normal distribution with a $\sigma$ chosen by a weighted ramdom draw.
 
 
 ```python
@@ -343,7 +308,7 @@ import sampling
 
 ### Load and transform the optimum inputs
 
-Let us load the optimum inputs x$_0$ found above, and switch it from a phase to the real and imaginary parts of a complex exponential. Unlike a phase, the transformed array has bounded values (in the [-1, 1] interval) making it easier to sample.
+Will load the optimum inputs x$_0$ found above. After that will switch the inputs from a phase representation to the real and imaginary parts of a unitary amplitude complex exponential. As a result the input shape goes from (160,) to (160, 2). Unlike a phase (which can take values from -$\infty$ to +$\infty$), the transformed array has bounded values (in the [-1, 1] interval) making it easier to sample.
 
 
 ```python
@@ -352,7 +317,6 @@ x0 = np.exp(1j * x0)
 x0 = np.array([x0.real, x0.imag]).T
 print x0.shape
 print x0[:3, :3]
-
 ```
 
     (160, 2)
@@ -363,7 +327,7 @@ print x0[:3, :3]
 
 ### Redefine the signal inputs
 
-The signal needs to now accept two columns of real and imaginary parts instead of a 1D phase array.
+The signal function needs to now accept two columns of real and imaginary parts instead of a 1D phase array.
 
 
 ```python
@@ -429,6 +393,12 @@ print "the optimum signal is {}".format(signal_function(x0))
 
 ## 4.2 Sampling with a set of sigmas
 
+With x0 at hand, it is possible to sample the signal by progressively perturbating away from x0. We know that x0 corresponds to maximum signal, so small perturbations away from x0 would still correspond to high signals. On the other hand, we know that randomly sampling the inputs results in signals close to zero. Thus, by perturbating strongly enough away from x0, it is possible to reach the minimum signals. Therefore, inputs calculated from x0 by addint to it a range of perturbations ranging from small to large may be able to sample the signal thorought its range from maximum to minimum.
+
+The function below finds the signas corresponding to inputs x = x0 + perturbations. Where, the perturbations are calculated from 40 normal distributions each corresponding to one value of $\sigma$ in [0.01, 0.022, ..., 0.487, 0.5]. For each value of $\sigma$ 20 samples are taken. Thus, the sampling below produces 800 signals.
+
+The maximum $\sigma$ of 0.5 was chosen considering that here the inputs are bounded between -1 and 1. Larger $\sigma$'s would stray more often away from the [-1, 1] interval. In a more general case, both the maximum and minimum $\sigma$'s can be changed and tried to obtain good coverage of the signal values.
+
 
 ```python
 sampled_sets = sampling.uniformSigmasSampling(
@@ -443,7 +413,7 @@ sampled_sets = sampling.uniformSigmasSampling(
 ```
 
 
-![png](README_files/README_42_0.png)
+![png](README_files/README_44_0.png)
 
 
 
@@ -451,7 +421,7 @@ sampled_sets = sampling.uniformSigmasSampling(
 
 
 
-![png](README_files/README_42_2.png)
+![png](README_files/README_44_2.png)
 
 
     (40,)
@@ -464,9 +434,13 @@ sampled_sets = sampling.uniformSigmasSampling(
       return pytables.to_hdf(path_or_buf, key, self, **kwargs)
 
 
-By simply sampling away from the maximum with increasing $\sigma$'s, an already reasonably balanced dataset (compared with fully random sampling) is obtained.
+We can see that no single $\sigma$ perturbation is able to sample the whole range of signals. On the other hand, a composite sampling approach like the above with groups of perturbations defined by the $\sigma$'s can sample the range of signals. Indedd, by simply sampling away from the maximum with uniformly-distributed increasing $\sigma$'s, an already reasonably balanced dataset (compared with fully random sampling) is obtained.
 
-## 4.2 Signals to sigmas map
+In some cases the above sampling may already give reasonably good results. In other cases that may not be the case. For instance, in highly nonlinear systems the signal can quickly decay as a function of perturbation strenght. The remaining steps aim at leveraging the information obtained above to produce a more robust sampling procedure.
+
+## 4.2 Expected signals to sigmas map
+
+The signal sets obtained by the various $\sigma$'s above can be processed to obtain a distribution map of expected signals for each $\sigma$ value.
 
 
 ```python
@@ -477,8 +451,10 @@ sigmas, ycenters, hist2d = sampling.histogramFromSampledSets(
 ```
 
 
-![png](README_files/README_45_0.png)
+![png](README_files/README_48_0.png)
 
+
+This mapping is critical to the sampling procedure: it allows obtaining a balanced dataset by selecting a group of $\sigma$'s that would produce, in turn, well distributed signals. Below, this 'selecting' is done by a genetic algorithm (GA) through assigning weights to the $\sigma$'s. But before that, the rough map above has to be up-sampled to feed the GA more fine-grained information.
 
 ### Up-sample the map
 
@@ -495,10 +471,22 @@ new_sigmas, new_ycenters, new_2dhist = sampling.interpolateHistogram(
 ```
 
 
-![png](README_files/README_47_0.png)
+![png](README_files/README_51_0.png)
 
 
 ## 4.3 Get optimum sampling weights
+
+Suppose that a large number of points is sampled. Each sample corresponds to inputs given by x = x0 + $\mathcal{N}(0, \sigma)$, where $\mathcal{N}(0, \sigma)$ corresponds to a normal distribution centered at zero and standard deviation given by $\sigma$. Now, suppose that we perform the above samples by measuring $W_1$ points with $\sigma_1$, $W_2$ points with $\sigma_2$, etc. If the $(n_{rows}, n_{cols})$ up-sampled matrix above is denoted by M(y, $\sigma$), the expected sampled signals will be given by:
+
+$b = M(y, \sigma) \times W$
+
+where, $b = [n_{y_1}, n_{y_2}, \ldots, n_{y_{n_{rows}}}]$ denotes a vector whose elements indicate the expected number $n_{y_i}$ of sampled signals with values within a signal bin around $y_i$, $\times$ denotes matrix multiplication, and $W = [W_1, W_2, ..., W_{n_{cols}}]$.
+
+The elements of $W$ are for now on refered to as weights. To obtain a balanced dataset, a genetic algorithm (GA) tries to obtain a set of weights that minimize the following fitness:
+
+$J = ||\mathbb{1} - M(y, \sigma) \times W||$
+
+where, $\mathbb{1} = [1, 1, ..., 1]$, and $||v||$ denotes the norm of vector $v$. Thus, below the GA's objective is to find a set of weights $W$ that produces a perfectly balanced dataset. Notice that since $b=[1, 1, ..., 1]$ the elements of $W$ will be floats instead of integers, but this does not affect the calculations, and the obtained $W$ can be understood as the relative weights for sampling a balanced dataset using the selected $\sigma$'s.
 
 
 ```python
@@ -526,12 +514,14 @@ weights = sampling.sigmaWeightsForUniformYSampling(
 
 
 
-![png](README_files/README_49_1.png)
+![png](README_files/README_54_1.png)
 
 
 
-![png](README_files/README_49_2.png)
+![png](README_files/README_54_2.png)
 
+
+The optimum weights produce an expected dataset approximately balanced.
 
 ## 4.4 Using the weights for sampling a balanced dataset
 
@@ -553,5 +543,7 @@ X, ysampled = sampling.weightedSigmasSampling(
 
 
 
-![png](README_files/README_51_1.png)
+![png](README_files/README_57_1.png)
 
+
+The signals sampled with the optimum weights are not as near-perfectly balanced as expected above, but they constitute a relatively well balanced dataset suitable to machine learning applications. Notice that the procedure above did not necesitate any internal information about the system. The steps above can be replicated with any signal function, the main requirement is that the signal can be optimized by the GA.
