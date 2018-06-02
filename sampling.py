@@ -391,7 +391,7 @@ def weightedSigmasSampling(npoints=1000,
         plt.title(title)
         plt.show()
 
-    if save_in:
+    if save_in:# todo: save with pd.to_hdf(.. fomat='Table') to enable pytables queries
         with h5py.File(save_in, 'a') as f:
             key = 'weighted_sigmas_sampling/y'
             if key in f: del f[key]
@@ -465,7 +465,7 @@ def generate_Xseeds_and_sigmas_from_weights(npoints=1000,
         seed = np.random.choice(2 ** 32)
         Xseeds.append(seed)
 
-    if save_in:
+    if save_in: # todo: save with pd.to_hdf(.. fomat='Table') to enable pytables queries
         with h5py.File(save_in, 'a') as f:
             key = 'weighted_sigmas_sampling/Xseeds'
             if key in f: del f[key]

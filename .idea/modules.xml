@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/sampling-of-biased-signals.iml" filepath="$PROJECT_DIR$/.idea/sampling-of-biased-signals.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/sampling-of-biased-physical-signals.iml" filepath="$PROJECT_DIR$/.idea/sampling-of-biased-physical-signals.iml" />
     </modules>
   </component>
 </project>
