@@ -781,291 +781,6 @@ from IPython.core.display import HTML
 HTML("<script>Jupyter.notebook.kernel.restart()</script>")
 ```
 
-    Using TensorFlow backend.
-
-
-    _________________________________________________________________
-    Layer (type)                 Output Shape              Param #   
-    =================================================================
-    input (InputLayer)           (None, 64, 2)             0         
-    _________________________________________________________________
-    conv_block_0_layer_0 (Conv1D (None, 64, 64)            448       
-    _________________________________________________________________
-    conv_block_0_layer_1 (Conv1D (None, 64, 64)            12352     
-    _________________________________________________________________
-    max_pooling_0 (MaxPooling1D) (None, 32, 64)            0         
-    _________________________________________________________________
-    dropout_0 (Dropout)          (None, 32, 64)            0         
-    _________________________________________________________________
-    conv_block_1_layer_0 (Conv1D (None, 32, 128)           24704     
-    _________________________________________________________________
-    conv_block_1_layer_1 (Conv1D (None, 32, 128)           49280     
-    _________________________________________________________________
-    max_pooling_1 (MaxPooling1D) (None, 16, 128)           0         
-    _________________________________________________________________
-    dropout_1 (Dropout)          (None, 16, 128)           0         
-    _________________________________________________________________
-    conv_block_2_layer_0 (Conv1D (None, 16, 256)           98560     
-    _________________________________________________________________
-    conv_block_2_layer_1 (Conv1D (None, 16, 256)           196864    
-    _________________________________________________________________
-    max_pooling_2 (MaxPooling1D) (None, 8, 256)            0         
-    _________________________________________________________________
-    dropout_2 (Dropout)          (None, 8, 256)            0         
-    _________________________________________________________________
-    flatten (Flatten)            (None, 2048)              0         
-    _________________________________________________________________
-    fc_0 (Dense)                 (None, 64)                131136    
-    _________________________________________________________________
-    dropout_fc_0 (Dropout)       (None, 64)                0         
-    _________________________________________________________________
-    fc_1 (Dense)                 (None, 8)                 520       
-    _________________________________________________________________
-    dropout_fc_1 (Dropout)       (None, 8)                 0         
-    _________________________________________________________________
-    predictions (Dense)          (None, 1)                 9         
-    =================================================================
-    Total params: 513,873
-    Trainable params: 513,873
-    Non-trainable params: 0
-    _________________________________________________________________
-    None
-    Train on 80000 samples, validate on 20000 samples
-    Epoch 1/50
-    80000/80000 [==============================] - 8s 96us/step - loss: 0.0473 - val_loss: 0.0354
-    
-    Epoch 00001: val_loss improved from inf to 0.03535, saving model to tb_logs/2018-06-02_16:00:07/keras_model.h5
-    Epoch 2/50
-    80000/80000 [==============================] - 5s 65us/step - loss: 0.0293 - val_loss: 0.0317
-    
-    Epoch 00002: val_loss improved from 0.03535 to 0.03173, saving model to tb_logs/2018-06-02_16:00:07/keras_model.h5
-    Epoch 3/50
-    80000/80000 [==============================] - 5s 65us/step - loss: 0.0218 - val_loss: 0.0144
-    
-    Epoch 00003: val_loss improved from 0.03173 to 0.01438, saving model to tb_logs/2018-06-02_16:00:07/keras_model.h5
-    Epoch 4/50
-    80000/80000 [==============================] - 5s 65us/step - loss: 0.0187 - val_loss: 0.0126
-    
-    Epoch 00004: val_loss improved from 0.01438 to 0.01263, saving model to tb_logs/2018-06-02_16:00:07/keras_model.h5
-    Epoch 5/50
-    80000/80000 [==============================] - 5s 65us/step - loss: 0.0172 - val_loss: 0.0130
-    
-    Epoch 00005: val_loss did not improve
-    Epoch 6/50
-    80000/80000 [==============================] - 5s 65us/step - loss: 0.0160 - val_loss: 0.0117
-    
-    Epoch 00006: val_loss improved from 0.01263 to 0.01169, saving model to tb_logs/2018-06-02_16:00:07/keras_model.h5
-    Epoch 7/50
-    80000/80000 [==============================] - 5s 63us/step - loss: 0.0151 - val_loss: 0.0119
-    
-    Epoch 00007: val_loss did not improve
-    Epoch 8/50
-    80000/80000 [==============================] - 5s 63us/step - loss: 0.0144 - val_loss: 0.0117
-    
-    Epoch 00008: val_loss did not improve
-    Epoch 9/50
-    80000/80000 [==============================] - 5s 63us/step - loss: 0.0139 - val_loss: 0.0108
-    
-    Epoch 00009: val_loss improved from 0.01169 to 0.01079, saving model to tb_logs/2018-06-02_16:00:07/keras_model.h5
-    Epoch 10/50
-    80000/80000 [==============================] - 5s 65us/step - loss: 0.0134 - val_loss: 0.0126
-    
-    Epoch 00010: val_loss did not improve
-    Epoch 11/50
-    80000/80000 [==============================] - 5s 67us/step - loss: 0.0130 - val_loss: 0.0097
-    
-    Epoch 00011: val_loss improved from 0.01079 to 0.00967, saving model to tb_logs/2018-06-02_16:00:07/keras_model.h5
-    Epoch 12/50
-    80000/80000 [==============================] - 5s 64us/step - loss: 0.0128 - val_loss: 0.0098
-    
-    Epoch 00012: val_loss did not improve
-    Epoch 13/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0125 - val_loss: 0.0099
-    
-    Epoch 00013: val_loss did not improve
-    Epoch 14/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0122 - val_loss: 0.0094
-    
-    Epoch 00014: val_loss improved from 0.00967 to 0.00942, saving model to tb_logs/2018-06-02_16:00:07/keras_model.h5
-    Epoch 15/50
-    80000/80000 [==============================] - 5s 65us/step - loss: 0.0119 - val_loss: 0.0093
-    
-    Epoch 00015: val_loss improved from 0.00942 to 0.00927, saving model to tb_logs/2018-06-02_16:00:07/keras_model.h5
-    Epoch 16/50
-    80000/80000 [==============================] - 5s 67us/step - loss: 0.0116 - val_loss: 0.0090
-    
-    Epoch 00016: val_loss improved from 0.00927 to 0.00898, saving model to tb_logs/2018-06-02_16:00:07/keras_model.h5
-    Epoch 17/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0115 - val_loss: 0.0103
-    
-    Epoch 00017: val_loss did not improve
-    Epoch 18/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0113 - val_loss: 0.0103
-    
-    Epoch 00018: val_loss did not improve
-    Epoch 19/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0112 - val_loss: 0.0092
-    
-    Epoch 00019: val_loss did not improve
-    Epoch 20/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0110 - val_loss: 0.0090
-    
-    Epoch 00020: val_loss did not improve
-    Epoch 21/50
-    80000/80000 [==============================] - 5s 67us/step - loss: 0.0108 - val_loss: 0.0094
-    
-    Epoch 00021: val_loss did not improve
-    Epoch 22/50
-    80000/80000 [==============================] - 5s 67us/step - loss: 0.0107 - val_loss: 0.0093
-    
-    Epoch 00022: val_loss did not improve
-    Epoch 23/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0106 - val_loss: 0.0092
-    
-    Epoch 00023: val_loss did not improve
-    Epoch 24/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0104 - val_loss: 0.0096
-    
-    Epoch 00024: val_loss did not improve
-    Epoch 25/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0103 - val_loss: 0.0087
-    
-    Epoch 00025: val_loss improved from 0.00898 to 0.00871, saving model to tb_logs/2018-06-02_16:00:07/keras_model.h5
-    Epoch 26/50
-    80000/80000 [==============================] - 5s 65us/step - loss: 0.0103 - val_loss: 0.0089
-    
-    Epoch 00026: val_loss did not improve
-    Epoch 27/50
-    80000/80000 [==============================] - 5s 64us/step - loss: 0.0099 - val_loss: 0.0088
-    
-    Epoch 00027: val_loss did not improve
-    Epoch 28/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0100 - val_loss: 0.0097
-    
-    Epoch 00028: val_loss did not improve
-    Epoch 29/50
-    80000/80000 [==============================] - 5s 67us/step - loss: 0.0098 - val_loss: 0.0086
-    
-    Epoch 00029: val_loss improved from 0.00871 to 0.00865, saving model to tb_logs/2018-06-02_16:00:07/keras_model.h5
-    Epoch 30/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0098 - val_loss: 0.0090
-    
-    Epoch 00030: val_loss did not improve
-    Epoch 31/50
-    80000/80000 [==============================] - 5s 64us/step - loss: 0.0097 - val_loss: 0.0088
-    
-    Epoch 00031: val_loss did not improve
-    Epoch 32/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0095 - val_loss: 0.0091
-    
-    Epoch 00032: val_loss did not improve
-    Epoch 33/50
-    80000/80000 [==============================] - 5s 67us/step - loss: 0.0094 - val_loss: 0.0097
-    
-    Epoch 00033: val_loss did not improve
-    Epoch 34/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0093 - val_loss: 0.0089
-    
-    Epoch 00034: val_loss did not improve
-    Epoch 35/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0093 - val_loss: 0.0089
-    
-    Epoch 00035: val_loss did not improve
-    Epoch 36/50
-    80000/80000 [==============================] - 5s 67us/step - loss: 0.0093 - val_loss: 0.0094
-    
-    Epoch 00036: val_loss did not improve
-    Epoch 37/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0092 - val_loss: 0.0089
-    
-    Epoch 00037: val_loss did not improve
-    Epoch 38/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0091 - val_loss: 0.0087
-    
-    Epoch 00038: val_loss did not improve
-    Epoch 39/50
-    80000/80000 [==============================] - 5s 67us/step - loss: 0.0091 - val_loss: 0.0093
-    
-    Epoch 00039: val_loss did not improve
-    Epoch 40/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0090 - val_loss: 0.0091
-    
-    Epoch 00040: val_loss did not improve
-    Epoch 41/50
-    80000/80000 [==============================] - 5s 67us/step - loss: 0.0091 - val_loss: 0.0088
-    
-    Epoch 00041: val_loss did not improve
-    Epoch 42/50
-    80000/80000 [==============================] - 5s 67us/step - loss: 0.0088 - val_loss: 0.0094
-    
-    Epoch 00042: val_loss did not improve
-    Epoch 43/50
-    80000/80000 [==============================] - 5s 67us/step - loss: 0.0088 - val_loss: 0.0085
-    
-    Epoch 00043: val_loss improved from 0.00865 to 0.00850, saving model to tb_logs/2018-06-02_16:00:07/keras_model.h5
-    Epoch 44/50
-    80000/80000 [==============================] - 5s 67us/step - loss: 0.0088 - val_loss: 0.0092
-    
-    Epoch 00044: val_loss did not improve
-    Epoch 45/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0087 - val_loss: 0.0086
-    
-    Epoch 00045: val_loss did not improve
-    Epoch 46/50
-    80000/80000 [==============================] - 5s 63us/step - loss: 0.0087 - val_loss: 0.0087
-    
-    Epoch 00046: val_loss did not improve
-    Epoch 47/50
-    80000/80000 [==============================] - 5s 64us/step - loss: 0.0086 - val_loss: 0.0084
-    
-    Epoch 00047: val_loss improved from 0.00850 to 0.00842, saving model to tb_logs/2018-06-02_16:00:07/keras_model.h5
-    Epoch 48/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0085 - val_loss: 0.0095
-    
-    Epoch 00048: val_loss did not improve
-    Epoch 49/50
-    80000/80000 [==============================] - 5s 63us/step - loss: 0.0085 - val_loss: 0.0090
-    
-    Epoch 00049: val_loss did not improve
-    Epoch 50/50
-    80000/80000 [==============================] - 5s 66us/step - loss: 0.0084 - val_loss: 0.0086
-    
-    Epoch 00050: val_loss did not improve
-    20000/20000 [==============================] - 2s 88us/step
-    80000/80000 [==============================] - 7s 86us/step
-
-
-
-![png](README_files/README_82_2.png)
-
-
-
-![png](README_files/README_82_3.png)
-
-
-    
-    train loss: 0.00399954480873
-    test loss: 0.00858952692896
-    train score: 0.937710471227
-    test score: 0.867181847771
-    
-    history saved to:
-    tb_logs/2018-06-02_16:00:07/history.pkl
-    
-    tensorboard-viewable logs saved to:
-    tb_logs/2018-06-02_16:00:07
-    
-    keras model (with the lowest test loss) saved to:
-    tb_logs/2018-06-02_16:00:07/keras_model.h5
-
-
-
-
-
-<script>Jupyter.notebook.kernel.restart()</script>
-
-
-
 ## 5.3 Evaluating the model with lowest validation loss
 
 ### Loading the data
@@ -1095,10 +810,11 @@ for seed, sigma in zip(Xseeds, sigmas):
 X = np.array(X)
 
 Xtrain, Xtest, ytrain, ytest = train_test_split(X, y, test_size=0.2, random_state=8)
+Xtest, ytest = Xtest[:1000, ...], ytest[:1000, ...]
 print Xtrain.shape, Xtest.shape, ytrain.shape, ytest.shape
 ```
 
-    (80000, 64, 2) (20000, 64, 2) (80000, 1) (20000, 1)
+    (80000, 64, 2) (1000, 64, 2) (80000, 1) (1000, 1)
 
 
 ### Best model evaluation
@@ -1124,8 +840,8 @@ HTML("<script>Jupyter.notebook.kernel.restart()</script>")
     Using TensorFlow backend.
 
 
-    20000/20000 [==============================] - 3s 129us/step
-    80000/80000 [==============================] - 7s 89us/step
+    1000/1000 [==============================] - 1s 965us/step
+    80000/80000 [==============================] - 7s 93us/step
 
 
 
@@ -1138,9 +854,9 @@ HTML("<script>Jupyter.notebook.kernel.restart()</script>")
 
     
     train loss: 0.00369969219109
-    test loss: 0.00842116285637
+    test loss: 0.00863498219848
     train score: 0.942380422196
-    test score: 0.869785228655
+    test score: 0.860514184873
 
 
 
@@ -1149,6 +865,10 @@ HTML("<script>Jupyter.notebook.kernel.restart()</script>")
 <script>Jupyter.notebook.kernel.restart()</script>
 
 
+
+The test score (i.e., r2_score) is high at 0.86.
+
+Reduced the number of points in the test set in order to more clearly see individual sample points in the truth table. There are three clusters approximately around signal values 0, 0.5, and 0.8 which recalls the sampled data distribution (see the signal histogram shown above). As expected from the high validation score, most points lie close to the 45$^o$ line in the truth table. But There seems to be a tendency for misclassifying some high signal inputs as very low signals. Analyzing these outliers' structure may suggest changes to the CNN model architecture.
 
 # 6. Conclusions
 
